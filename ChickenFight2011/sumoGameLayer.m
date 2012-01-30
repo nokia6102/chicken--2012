@@ -409,6 +409,8 @@
         return;
     
     blowTime = 5;
+  
+  
     
     NSString *path = [NSTemporaryDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"%@-recording", NSStringFromClass([self class])]];
     
@@ -425,6 +427,11 @@
     NSError *categorySwizzlingError = nil;
     BOOL didSetCategory = [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayAndRecord error:&categorySwizzlingError];
     
+  //speaker out
+  UInt32 audioRouteOverride = kAudioSessionOverrideAudioRoute_Speaker;
+  AudioSessionSetProperty (kAudioSessionProperty_OverrideAudioRoute,sizeof (audioRouteOverride),&audioRouteOverride);
+  //---？
+  
     if (!didSetCategory)
         NSLog(@"did not set category: %@", categorySwizzlingError);
     
